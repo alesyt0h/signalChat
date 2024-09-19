@@ -8,7 +8,7 @@ import { ChatStore } from './store/chat.store';
 import { MessageComponent } from './components/message/message.component';
 import { SignalRService } from '../services/signalr.service';
 import { Message } from '../models/messages.interface';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 import { HubConnectionState } from '@microsoft/signalr';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
@@ -32,6 +32,7 @@ export class ChatComponent {
   messages$: Observable<Message[]>;
   connectionState$: Observable<HubConnectionState>;
   lastNotification$: Observable<Notification>;
+  lastNotificationSubscription!: Subscription;
 
   constructor(
     private signalRService: SignalRService,
@@ -58,7 +59,7 @@ export class ChatComponent {
   }
 
   ngOnInit(): void {
-    this.lastNotification$.subscribe(notificationData => {
+    this.lastNotificationSubscription = this.lastNotification$.subscribe(notificationData => {
         this.messageService.add({ severity: 'info', summary: notificationData.title, detail: notificationData.content });
     });
 
@@ -71,6 +72,10 @@ export class ChatComponent {
         this.notificationForm.enable();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.lastNotificationSubscription.unsubscribe();
   }
 
   sendMessage(): void {
