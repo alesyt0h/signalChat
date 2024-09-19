@@ -1,1 +1,62 @@
+<main>
+  <div class="container">
+    <div class="flex justify-content-between">
+      <div class="mb-2">
+        <h1 class="mb-0">Live Chat</h1>
+        <span class="text-xs proto-text font-semibold">
+          Status:
+          <span [ngClass]="{
+              'text-teal-400': (connectionState$ | async) === 'Connected',
+              'text-red-700': (connectionState$ | async) === 'Disconnected'
+          }">
+            {{ connectionState$ | async }}
+          </span>
+        </span>
+      </div>
+      <div class="flex flex-column justify-content-center">
+        <p-button label="Notificar" icon="pi pi-bell" [outlined]="true" severity="warning" styleClass="font-semibold"
+        (click)="showNotificacionDialog = true" />
+      </div>
+    </div>
 
+    <div class="w-full">
+      <div class="chat-window">
+        <app-message *ngFor="let message of messages$ | async" [message]="message"></app-message>
+      </div>
+    </div>
+
+    <div>
+      <form [formGroup]="chatForm" class="text-right mt-4 flex gap-4">
+        <input type="text" pInputText placeholder="Usuario" formControlName="user" class="w-4" (keyup.enter)="sendMessage()" />
+        <input type="text" pInputText placeholder="Escribe tu mensaje.." formControlName="message" (keyup.enter)="sendMessage()" class="w-7" />
+        <p-button label="Enviar" [raised]="true" (click)="sendMessage()" />
+      </form>
+    </div>
+  </div>
+</main>
+
+<p-toast />
+
+<p-dialog
+  header="Enviar notificación"
+  [modal]="true"
+  [(visible)]="showNotificacionDialog"
+  [style]="{ width: '25rem' }">
+
+  <form [formGroup]="notificationForm">
+    <div class="flex align-items-center gap-3 mb-5 mt-4" >
+        <input type="text" pInputText id="title" class="w-full" placeholder="Título" formControlName="title"
+        (keyup.enter)="sendNotification()" />
+    </div>
+
+    <div class="flex align-items-center gap-3 mb-5">
+        <input type="text" pInputText id="content" placeholder="Mensaje" class="w-full" formControlName="content"
+        (keyup.enter)="sendNotification()" />
+    </div>
+
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancelar" severity="secondary" (click)="closeDialog()" />
+      <p-button (click)="sendNotification()" label="Enviar" severity="warning" />
+    </div>
+  </form>
+</p-dialog>

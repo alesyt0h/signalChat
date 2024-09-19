@@ -1,0 +1,23 @@
+.container {
+  max-width: 800px;
+  background-color: #fff;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.proto-text {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.chat-window {
+  border-radius: 12px;
+  height: 500px;
+  border: 2px solid rgba(83, 83, 83, 0.1);
+  background: linear-gradient(145deg, #ffffff, #ececec);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1),
+    -4px -4px 10px rgba(255, 255, 255, 0.877);
+  padding: 20px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
