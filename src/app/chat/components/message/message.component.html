@@ -1,0 +1,5 @@
+<div [ngClass]="{ 'self-message': isSelf }">
+  <span class="text-xs font-semibold">{{ displayName || "Anonymous" }}</span>
+  <div class="bubble w-fit">{{ message.message }}</div>
+  <span class="text-xs">{{ message.timestamp | date : "HH:mm" }}</span>
+</div>
