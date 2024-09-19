@@ -14,8 +14,8 @@
         </span>
       </div>
       <div class="flex flex-column justify-content-center">
-        <p-button label="Notificar" icon="pi pi-bell" [outlined]="true" severity="warning" styleClass="font-semibold"
-        (click)="showNotificacionDialog = true" />
+        <p-button label="Notificar" icon="pi pi-bell" [outlined]="true" severity="warning"  styleClass="font-semibold"
+        (click)="showNotificacionDialog = true" [disabled]="(connectionState$ | async) !== 'Connected'"/>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       <form [formGroup]="chatForm" class="text-right mt-4 flex gap-4">
         <input type="text" pInputText placeholder="Usuario" formControlName="user" class="w-4" (keyup.enter)="sendMessage()" />
         <input type="text" pInputText placeholder="Escribe tu mensaje.." formControlName="message" (keyup.enter)="sendMessage()" class="w-7" />
-        <p-button label="Enviar" [raised]="true" (click)="sendMessage()" />
+        <p-button label="Enviar" [raised]="true" (click)="sendMessage()" [disabled]="(connectionState$ | async) !== 'Connected'"/>
       </form>
     </div>
   </div>

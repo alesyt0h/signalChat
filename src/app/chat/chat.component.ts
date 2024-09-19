@@ -61,6 +61,16 @@ export class ChatComponent {
     this.lastNotification$.subscribe(notificationData => {
         this.messageService.add({ severity: 'info', summary: notificationData.title, detail: notificationData.content });
     });
+
+    this.connectionState$.subscribe(state => {
+      if(state === HubConnectionState.Disconnected){
+        this.chatForm.disable();
+        this.notificationForm.disable();
+      } else if (state === HubConnectionState.Connected){
+        this.chatForm.enable();
+        this.notificationForm.enable();
+      }
+    });
   }
 
   sendMessage(): void {
